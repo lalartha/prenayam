@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Prenayam — Pure Love</title>
+    <meta name="description" content="Prenayam — Love Beyond Words. A minimalist, emotionally appealing celebration of unconditional love." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Manjari:wght@400;700&family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header" id="top">
+      <nav class="nav" aria-label="Primary">
+        <a href="#top" class="logo" aria-label="Prenayam Home">Prenayam</a>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-menu">
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+        </button>
+        <ul class="nav-menu" id="primary-menu">
+          <li><a href="#notes">Notes</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Hero Section -->
+      <section class="hero" id="hero" aria-label="Hero">
+        <figure class="hero-media" aria-hidden="true">
+          <picture>
+            <source media="(max-width: 768px)" srcset="prenayam2.png" />
+            <img src="prenayam1.png" alt="Landscape evoking warmth and serenity" />
+          </picture>
+        </figure>
+        <div class="hero-overlay" aria-hidden="true"></div>
+        <canvas id="rain-canvas" class="rain-canvas" aria-hidden="true"></canvas>
+        <div class="hero-content">
+          <h1 class="headline" data-animate="fade-up">പ്രണയം</h1>
+          <p class="subhead" data-animate="fade-up" data-animate-delay="120">Warmth. Serenity. A quiet space to feel.</p>
+        </div>
+        <a class="scroll-down" href="#aboutline" aria-label="Scroll down"></a>
+      </section>
+
+      <!-- Single line under hero -->
+      <section class="section" id="aboutline" aria-label="About line">
+        <div class="container">
+          <div class="panel" data-animate="fade-in">
+            <p class="poem" style="text-align:center; margin:0;">
+              <span class="term">ഇഷ്ടം</span>, <span class="term">പ്രണയം</span>, <span class="term">പ്രേമം</span> — they may sound alike, but each holds a different essence.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Disclaimer -->
+      <section class="section" id="disclaimer" aria-label="Disclaimer">
+        <div class="container">
+          <div class="panel panel-compact" data-animate="fade-in">
+            <p class="disclaimer">
+              Disclaimer: The perspectives shared here reflect the creator’s personal view only. Meanings can vary in real life, and you may hold your own definitions.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Notes Section -->
+      <section class="notes section" id="notes" aria-label="My Notes">
+        <div class="container">
+          <div class="panel" data-animate="fade-in">
+            <h2 class="section-title">My Notes</h2>
+            <p class="notes-hint">Write a private note to someone special. Saved on this device by default. Optional account sync available.</p>
+            <div class="notes-auth">
+              <button id="signin-btn" class="btn" type="button">Sign in with Google (optional)</button>
+              <button id="signout-btn" class="btn" type="button" style="display:none">Sign out</button>
+              <span id="user-info" class="user-info"></span>
+            </div>
+            <form id="note-form" class="note-form">
+              <div class="form-row">
+                <label for="note-title" class="visually-hidden">Title</label>
+                <input id="note-title" name="title" type="text" placeholder="Write a tiny title (optional)" />
+              </div>
+              <div class="form-row">
+                <label for="note-body" class="visually-hidden">Note</label>
+                <div class="diary-wrap">
+                  <textarea id="note-body" name="body" rows="5" placeholder="Type your note here... let it be messy, real, you."></textarea>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button id="save-note-btn" type="submit" class="btn">Save Note</button>
+              </div>
+            </form>
+
+            <div class="notes-list" id="notes-list" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" aria-label="Footer">
+      <div class="container">
+        <p>© <span id="year"></span> Prenayam. Crafted with warmth.</p>
+      </div>
+    </footer>
+    <!-- Audio Elements -->
+    <audio id="player" preload="auto"></audio>
+    <audio id="rain-audio" src="assets/rain.mp3" preload="auto" loop></audio>
+
+    <!-- Floating Music Controls -->
+    <div class="player" role="region" aria-label="Music Player">
+      <div class="player-row">
+        <button id="prev-btn" class="player-btn" aria-label="Previous">⏮︎</button>
+        <button id="play-btn" class="player-btn" aria-label="Play/Pause">▶︎</button>
+        <button id="next-btn" class="player-btn" aria-label="Next">⏭︎</button>
+        <button id="shuffle-btn" class="player-btn" aria-pressed="false" aria-label="Shuffle">🔀</button>
+        <div class="player-title" id="track-title">No track</div>
+        <input id="volume" class="player-volume" type="range" min="0" max="1" step="0.01" value="0.8" aria-label="Volume" />
+        <button id="rain-toggle" class="player-btn" aria-pressed="false" aria-label="Toggle rain visuals">🌧️</button>
+        <button id="rain-audio-toggle" class="player-btn" aria-pressed="false" aria-label="Toggle rain sound">💧</button>
+      </div>
+    </div>
+
+    <!-- Optional Firebase (account sync). Configure keys in firebase-init.js -->
+    <script type="module" src="firebase-init.js"></script>
+    <script src="scripts.js"></script>
+  </body>
+  </html>
+
+
