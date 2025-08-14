@@ -64,8 +64,11 @@ if (heroImg && !reduceMotion) {
 }
 
 // Audio player with playlist
+// Audio player with playlist
 const tracks = [
-	{ title: 'Rasathi Unnai', src: 'assets/rasathi-unnai.mp3' },
+    { title: 'Rasathi Unnai', src: 'assets/rasathi-unnai.mp3' },
+    { title: 'Akkam Pakkam', src: 'assets/akkam-pakkam.mp3' },
+    { title: 'Venilave Venilave', src: 'assets/venilave-venilave.mp3' }
 ];
 let currentIndex = 0;
 let isShuffling = false;
@@ -82,51 +85,87 @@ const rainToggle = document.getElementById('rain-toggle');
 const rainAudioToggle = document.getElementById('rain-audio-toggle');
 
 function loadTrack(index) {
-	const track = tracks[index];
-	if (!track) return;
-	audioEl.src = track.src;
-	titleEl.textContent = track.title;
+    const track = tracks[index];
+    if (!track) return;
+    audioEl.src = track.src;
+    titleEl.textContent = track.title;
+    audioEl.currentTime = 0; // reset to start
+    audioEl.load(); // ensure the file is loaded before playing
 }
 
 function play() {
-	audioEl.play().catch(() => {});
-	playBtn.textContent = '⏸︎';
+    audioEl.play().then(() => {
+        playBtn.textContent = '⏸︎';
+    }).catch(err => {
+        console.error("Playback failed:", err);
+    });
 }
+
 function pause() {
-	audioEl.pause();
-	playBtn.textContent = '▶︎';
+    audioEl.pause();
+    playBtn.textContent = '▶︎';
 }
+
 function togglePlay() {
-	if (audioEl.paused) play(); else pause();
+    if (audioEl.paused) {
+        play();
+    } else {
+        pause();
+    }
 }
+
 function next() {
-	if (isShuffling) {
-		currentIndex = Math.floor(Math.random() * tracks.length);
-	} else {
-		currentIndex = (currentIndex + 1) % tracks.length;
-	}
-	loadTrack(currentIndex);
-	play();
+    if (isShuffling) {
+        currentIndex = Math.floor(Math.random() * tracks.length);
+    } else {
+        currentIndex = (currentIndex + 1) % tracks.length;
+    }
+    loadTrack(currentIndex);
+    play();
 }
+
 function prev() {
-	currentIndex = (currentIndex - 1 + tracks.length) % tracks.length;
-	loadTrack(currentIndex);
-	play();
+    currentIndex = (currentIndex - 1 + tracks.length) % tracks.length;
+    loadTrack(currentIndex);
+    play();
 }
 
 if (audioEl) {
-	loadTrack(currentIndex);
-	playBtn?.addEventListener('click', togglePlay);
-	prevBtn?.addEventListener('click', prev);
-	nextBtn?.addEventListener('click', next);
-	shuffleBtn?.addEventListener('click', () => {
-		isShuffling = !isShuffling;
-		shuffleBtn.setAttribute('aria-pressed', String(isShuffling));
-	});
-	volumeSlider?.addEventListener('input', () => {
-		audioEl.volume = Number(volumeSlider.value);
-	});
-	audioEl.addEventListener('ended', next);
+    loadTrack(currentIndex);
+    // Initialize volume from slider for immediate effect
+    if (volumeSlider) {
+        audioEl.volume = Number(volumeSlider.value);
+    } else {
+        audioEl.volume = 0.8;
+    }
+    playBtn?.addEventListener('click', togglePlay);
+    prevBtn?.addEventListener('click', prev);
+    nextBtn?.addEventListener('click', next);
+    shuffleBtn?.addEventListener('click', () => {
+        isShuffling = !isShuffling;
+        shuffleBtn.setAttribute('aria-pressed', String(isShuffling));
+    });
+    volumeSlider?.addEventListener('input', () => {
+        audioEl.volume = Number(volumeSlider.value);
+    });
+    audioEl.addEventListener('ended', next);
+    audioEl.addEventListener('error', () => {
+        const bad = tracks[currentIndex];
+        titleEl.textContent = 'Could not load: ' + (bad?.title || (audioEl.currentSrc?.split('/').pop() || 'audio file'));
+        playBtn.textContent = '▶︎';
+        // Try to skip to next available track to keep the flow
+        const start = currentIndex;
+        for (let i = 0; i < tracks.length - 1; i++) {
+            currentIndex = (currentIndex + 1) % tracks.length;
+            if (currentIndex === start) break;
+            loadTrack(currentIndex);
+            // Attempt to play; if it errors again, handler will run again
+            audioEl.play().catch(() => {});
+            break;
+        }
+    });
+
+    // Playlist UI removed per request
 }
 
 // Rain visuals (canvas) and sound toggles
