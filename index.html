@@ -14,6 +14,7 @@
     <header class="site-header" id="top">
       <nav class="nav" aria-label="Primary">
         <a href="#top" class="logo" aria-label="Prenayam Home">Prenayam</a>
+        
         <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-menu">
           <span class="nav-toggle-bar"></span>
           <span class="nav-toggle-bar"></span>
@@ -48,18 +49,10 @@
         <div class="container">
           <div class="panel" data-animate="fade-in">
             <p class="poem" style="text-align:center; margin:0;">
-              <span class="term">ഇഷ്ടം</span>, <span class="term">പ്രണയം</span>, <span class="term">പ്രേമം</span> — they may sound alike, but each holds a different essence.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Disclaimer -->
-      <section class="section" id="disclaimer" aria-label="Disclaimer">
-        <div class="container">
-          <div class="panel panel-compact" data-animate="fade-in">
-            <p class="disclaimer">
-              Disclaimer: The perspectives shared here reflect the creator’s personal view only. Meanings can vary in real life, and you may hold your own definitions.
+              <span class="term">ഇഷ്ടം</span>, 
+              <span class="term">പ്രണയം</span>, 
+              <span class="term">പ്രേമം</span> — 
+              they may sound alike, but each holds a different essence.
             </p>
           </div>
         </div>
@@ -96,6 +89,17 @@
           </div>
         </div>
       </section>
+
+      <!-- Disclaimer Section - Moved to bottom -->
+      <section class="section disclaimer-section" id="disclaimer" aria-label="Disclaimer">
+        <div class="container">
+          <div class="disclaimer-container" data-animate="fade-in">
+            <p class="disclaimer">
+              Disclaimer: The perspectives shared here reflect the creator's personal view only. Meanings can vary in real life, and you may hold your own definitions.
+            </p>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer" aria-label="Footer">
@@ -103,21 +107,34 @@
         <p>© <span id="year"></span> Prenayam. Crafted with warmth.</p>
       </div>
     </footer>
+    
     <!-- Audio Elements -->
     <audio id="player" preload="auto"></audio>
-    <audio id="rain-audio" src="assets/rain.mp3" preload="auto" loop></audio>
+    <audio id="rain-audio" src="rain.mp3" preload="auto" loop></audio>
+
+    <!-- Music Language Toggle Button - Moved near player -->
+    <div class="music-language-toggle">
+      <button id="lang-toggle" class="lang-btn" aria-label="Toggle music language">
+        <span class="lang-text">മലയാളം</span>
+        <span class="lang-icon">🎵</span>
+      </button>
+    </div>
 
     <!-- Floating Music Controls -->
     <div class="player" role="region" aria-label="Music Player">
       <div class="player-row">
         <button id="prev-btn" class="player-btn" aria-label="Previous">⏮︎</button>
+        <button id="skip-backward-btn" class="player-btn" aria-label="Skip 10 seconds backward">⏪</button>
         <button id="play-btn" class="player-btn" aria-label="Play/Pause">▶︎</button>
+        <button id="skip-forward-btn" class="player-btn" aria-label="Skip 10 seconds forward">⏩</button>
         <button id="next-btn" class="player-btn" aria-label="Next">⏭︎</button>
         <button id="shuffle-btn" class="player-btn" aria-pressed="false" aria-label="Shuffle">🔀</button>
         <div class="player-title" id="track-title">No track</div>
-        <input id="volume" class="player-volume" type="range" min="0" max="1" step="0.01" value="0.8" aria-label="Volume" />
-        <button id="rain-toggle" class="player-btn" aria-pressed="false" aria-label="Toggle rain visuals">🌧️</button>
-        <button id="rain-audio-toggle" class="player-btn" aria-pressed="false" aria-label="Toggle rain sound">💧</button>
+        <div class="player-controls">
+          <input id="volume" class="player-volume" type="range" min="0" max="1" step="0.01" value="0.8" aria-label="Volume" />
+          <button id="rain-toggle" class="player-btn" aria-pressed="false" aria-label="Toggle rain visuals">🌧️</button>
+          <button id="rain-audio-toggle" class="player-btn" aria-pressed="false" aria-label="Toggle rain sound">💧</button>
+        </div>
       </div>
     </div>
 
@@ -125,6 +142,6 @@
     <script type="module" src="firebase-init.js"></script>
     <script src="scripts.js"></script>
   </body>
-  </html>
+</html>
 
 
